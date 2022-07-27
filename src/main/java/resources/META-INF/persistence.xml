@@ -1,0 +1,20 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1" >
+    <persistence-unit name="estudante_pu" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider> <!-- DEFININDO TIPO DE IMPLEMENTAÇÃO -->
+
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/escola"/> <!-- URL DO BANCO DE DADOS-->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/> <!-- DRIVER DO MYSQL-->
+            <property name="javax.persistence.jdbc.user" value="root"/><!-- NOME DO USUARIO DO BANCO DE DADOS-->
+            <property name="javax.persistence.jdbc.password" value="5432es"/><!-- SENHA DO USUARIO DO BANCO DE DADOS-->
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" /> <!-- DEFININDO O DIALETO DO MYSQL, NESSE CASO DIALETO DA VERSÃO 8.0 -->
+            <property name="hibernate.show_sql" value="true"/> <!-- MOSTRAR SQL -->
+            <property name="hibernate.format_sql" value="true"/> <!-- FORMATAR SQL-->
+            <!--
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            -->
+           <!-- HIBERNATE ATUALIZARA A TABELA QUANDO NECESSÁRIO -->
+        </properties>
+    </persistence-unit>
+</persistence>
