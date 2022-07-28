@@ -1,10 +1,13 @@
 package org.example.Estudante;
 
+import com.mysql.cj.Session;
 import org.example.model.Estudante;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import java.util.List;
 import java.util.Optional;
 
 public class EstudanteRepositorio {
@@ -28,6 +31,43 @@ public class EstudanteRepositorio {
                 return estudante;
         else
             return null;
+    }
+
+    public List<String> findFirstNames(String name){
+        entityManager.getTransaction().begin();
+
+        Query query = entityManager.createQuery("SELECT e.nome FROM Estudante e");
+
+        return query.getResultList();
+    }
+
+    public Estudante findById(Long id){
+        Query query = entityManager.createNamedQuery("find student by id");
+        query.setParameter("id",id);
+        entityManager.clear(); // JPQL não afeta diretamente o banco de dados. Para persistir as mudanças é preciso limpar o entityManager
+        return (Estudante) query.getSingleResult();
+    }
+
+    public Estudante updateFirstNameById(String firstName, Long id){
+        entityManager.getTransaction().begin();
+        Query query = entityManager.createQuery("UPDATE Estudante SET nome = :firstName WHERE id = :id");
+        /*
+        query.setParameter(1,firstName);
+        query.setParameter(2,id);
+         */
+        query.setParameter("firstName",firstName);
+        query.setParameter("id",id);
+        query.executeUpdate();
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+        return findById(id);
+    }
+
+    public void deleteById(Long id){
+        entityManager.getTransaction().begin();
+        Query query = entityManager.createQuery("DELETE FROM Estudante WHERE id = :id");
+        query.setParameter("id",id);
+        entityManager.getTransaction().commit();
     }
 
     public Estudante add(Estudante estudante){
